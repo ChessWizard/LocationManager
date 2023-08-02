@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Current Location</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+</head>
+<body>
+    
+    <button id="getCurrentLocation">Get Current Location</button>
+    <p id="currentLocationData"></p>
+
+</body>
+</html>
+
+<script>
+
+$(function(){
+
+const getLocationBtn = $("#getCurrentLocation");
+
+getLocationBtn.click(() => {
+
+    navigator.geolocation.getCurrentPosition(position => {
+       
+    var request = {
+
+        latitude: position.coords.latitude.toString(),
+        longitude: position.coords.longitude.toString()
+    }
+
+                $.ajax({
+                url: 'https://localhost:7296/api/CurrentLocations',
+                type: 'GET',
+                contentType: "application/json",
+                dataType:"json",
+                data: request,
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            })
+        });
+    });
+</script>
