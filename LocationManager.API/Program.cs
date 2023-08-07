@@ -1,9 +1,13 @@
 using LocationManager.API.Services.Interfaces;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using LocationManager.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// JSON veri alma konfigürasyonu
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

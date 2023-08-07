@@ -18,6 +18,8 @@ namespace LocationManager.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCurrentLocationQueryResult))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentLocation([FromQuery]GetCurrentLocationQuery request)
         {
             var result = await _locationManager.GetCurrentLocationAsync(request.Latitude, request.Longitude);

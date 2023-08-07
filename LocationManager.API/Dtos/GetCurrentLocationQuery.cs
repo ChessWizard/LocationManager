@@ -7,7 +7,5 @@ namespace LocationManager.API.Dtos
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
-    }
-
-    
+    }  
 }

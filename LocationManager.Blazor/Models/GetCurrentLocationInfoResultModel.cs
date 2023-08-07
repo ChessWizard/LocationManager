@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace LocationManager.API.Dtos
+namespace LocationManager.Blazor.Models
 {
-    public class GetCurrentLocationQueryResult
+    public class GetCurrentLocationInfoResultModel
     {
         [JsonPropertyName("place_id")]
         public int PlaceId { get; set; }
@@ -60,3 +59,4 @@ namespace LocationManager.API.Dtos
         public string CountryCode { get; set; }
     }
 }
+

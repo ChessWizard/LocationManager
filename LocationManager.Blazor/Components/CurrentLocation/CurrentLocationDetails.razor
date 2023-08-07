@@ -1,0 +1,27 @@
+﻿@using LocationManager.Blazor.Models;
+<div class="locations">
+
+    <RadzenCard Variant="Variant.Filled" Class="rz-my-12 rz-mx-auto" Style="max-width: 420px">
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+            <RadzenImage Path="https://static-00.iconduck.com/assets.00/globe-icon-512x512-jrx2ilx3.png" Style="width: 100px; height: 100px; border-radius: 50%;" />
+            <RadzenStack Gap="0">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">İl/İlçe</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@($"{currentLocationInfoModel?.Address?.District}/{currentLocationInfoModel?.Address?.Town}")</b></RadzenText>
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Ülke/Ülke Kodu</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@($"{currentLocationInfoModel?.Address?.Country}/{currentLocationInfoModel?.Address.CountryCode}")</b></RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenCard>
+
+</div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Bileşen yüklendiğinde çalışacak asenkron işlemler burada yapılır
+        // Komponenet yüklenir yüklenmez çağrılsın, doğrudan veriler içine dolsun p'lerin
+        await GetCurrentLocationDetailsAsync();
+    }
+
+}

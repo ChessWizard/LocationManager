@@ -1,0 +1,69 @@
+﻿@page "/search"
+@using LocationManager.Blazor.Components
+@using LocationManager.Blazor.Components.SearchLocationByQuery
+@using Microsoft.AspNetCore.WebUtilities;
+
+<Navbar />
+<RadzenLayout style="height: auto">
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
+            <RadzenLabel Text="Aranan Konumlar" />
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home" Click="NavigateToHome"/>
+        </RadzenPanelMenu>
+        <div class="rz-p-4">
+            Sidebar
+        </div>
+    </RadzenSidebar>
+    <RadzenBody>
+        <GetLocationQueryDetails query="@Q" limit="@Limit" />
+    </RadzenBody>
+    <RadzenFooter>
+        Footer
+    </RadzenFooter>
+</RadzenLayout>
+
+
+
+@code {
+
+    bool sidebar1Expanded = true;
+
+    [Parameter]
+    public string Q { get; set; }
+
+    [Parameter]
+    public string Limit { get; set; }
+
+
+    [Inject]
+    private NavigationManager _navigationManager {get; set;}
+
+    protected override Task OnInitializedAsync()
+    {
+        var uri = _navigationManager.ToAbsoluteUri(_navigationManager.Uri);
+
+        var queryString = QueryHelpers.ParseQuery(uri.Query);
+
+        if(queryString.TryGetValue("query", out var query))
+        {
+            Q = query;
+        }
+
+        if(queryString.TryGetValue("limit", out var limit))
+        {
+            Limit = limit;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void NavigateToHome()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}
