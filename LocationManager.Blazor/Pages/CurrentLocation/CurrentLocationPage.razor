@@ -2,10 +2,36 @@
 
 @using LocationManager.Blazor.Components;
 @using LocationManager.Blazor.Components.CurrentLocation
+@using LocationManager.Blazor.Models;
+@inject IJSRuntime _jsRuntime;
 
 <Navbar></Navbar>
 <CurrentLocationDetails/>
 
-@code {
+<GeoMap />
 
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Enlem ve boylam değerleri alınsın
+        var result = await GetCurrentCoordinates();
+
+        // The <div id="leafletmap"> must be added to the dom before calling L.map('leafletmap').
+        // Yani ilgili map'leme metodu sayfa render edildikten sonra(tasarım yüklendikten sonra) çağrılmalıdır
+        // Sırasıyla js fonksiyonunda hangi parametreler işleniyorsa onları gönderiyoruz
+        await _jsRuntime.InvokeVoidAsync("createLocationMap",result[0],result[1]);
+    }
+
+    private async Task<List<string>> GetCurrentCoordinates()
+    {
+        var result = await _jsRuntime.InvokeAsync<GetCurrentLocationResultModel>("getLocation");
+
+        List<string> coordinates = new()
+        {
+            result.Latitude.ToString().Replace(",", "."),
+            result.Longitude.ToString().Replace(",", ".")
+        };
+
+        return coordinates;
+    }
 }
