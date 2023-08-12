@@ -3,7 +3,6 @@
 @using LocationManager.Blazor.Components.SearchLocationByQuery
 @using Microsoft.AspNetCore.WebUtilities;
 
-<Navbar />
 <RadzenLayout style="height: auto">
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
@@ -34,33 +33,15 @@
     bool sidebar1Expanded = true;
 
     [Parameter]
+    [SupplyParameterFromQuery]
     public string Q { get; set; }
 
     [Parameter]
+    [SupplyParameterFromQuery]
     public string Limit { get; set; }
-
 
     [Inject]
     private NavigationManager _navigationManager {get; set;}
-
-    protected override Task OnInitializedAsync()
-    {
-        var uri = _navigationManager.ToAbsoluteUri(_navigationManager.Uri);
-
-        var queryString = QueryHelpers.ParseQuery(uri.Query);
-
-        if(queryString.TryGetValue("query", out var query))
-        {
-            Q = query;
-        }
-
-        if(queryString.TryGetValue("limit", out var limit))
-        {
-            Limit = limit;
-        }
-
-        return Task.CompletedTask;
-    }
 
     private void NavigateToHome()
     {

@@ -26,7 +26,7 @@ namespace LocationManager.Blazor.Components.SearchLocationByQuery
             var result = await _httpClient.SendAsync(requestMessage);
 
             if (!result.IsSuccessStatusCode)
-                return (List<SearchLocationByQueryResult>)Enumerable.Empty<SearchLocationByQueryResult>();
+                return new List<SearchLocationByQueryResult>();
 
             var resultModel = await result.Content.ReadAsStringAsync();
             var model = JsonSerializer.Deserialize<List<SearchLocationByQueryResult>>(resultModel);

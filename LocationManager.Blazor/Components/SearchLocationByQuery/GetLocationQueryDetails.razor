@@ -1,33 +1,36 @@
-﻿@using LocationManager.Blazor.Models;
+﻿@using LocationManager.Blazor.Extensions;
+@using LocationManager.Blazor.Models;
 
 
+@if (!outputData.IsNullOrNotAny())
+{
+    <RadzenDataGrid Data="@outputData" TItem="SearchLocationByQueryResult" AllowPaging="true" PageSize="10" AllowFiltering="true"><!--Data Grid konfigürasyonu, kendisine gelen list of datayı foreach gibi döner-->
+        <Columns><!--Çoklu bir kolon yapısı yaratacağımızı söylüyoruz-->
+            <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Latitude" Title="Enlem"><!--İlk kolonumuzun yapısı-->
+                <Template Context="location">@(location.Lat)</Template><!--Kolon içeriğimiz. Gelen datayı location adında bir değişkene atıp içinden ilgili verilere ulaşabiliyoruz-->
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Longitude" Title="Boylam">
+                <Template Context="location">@(location.Lon)</Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Class" Title="Sınıfı">
+                <Template Context="location">@(location.Class)</Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Type" Title="Tipi">
+                <Template Context="location">@(location.Type)</Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Icon" Title="Fotoğraf">
+                <Template Context="location"><img width="30px" height="30px" src="@(string.IsNullOrEmpty(location.Icon) ? "https://static-00.iconduck.com/assets.00/globe-icon-512x512-jrx2ilx3.png" : location.Icon)" /></Template>
+            </RadzenDataGridColumn>
+        </Columns>
 
-<RadzenDataGrid Data="@outputData" TItem="SearchLocationByQueryResult" AllowPaging="true" PageSize="10" AllowFiltering="true"><!--Data Grid konfigürasyonu, kendisine gelen list of datayı foreach gibi döner-->
-    <Columns><!--Çoklu bir kolon yapısı yaratacağımızı söylüyoruz-->
-        <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Latitude" Title="Enlem"><!--İlk kolonumuzun yapısı-->
-            <Template Context="location">@(location.Lat)</Template><!--Kolon içeriğimiz. Gelen datayı location adında bir değişkene atıp içinden ilgili verilere ulaşabiliyoruz-->
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Longitude" Title="Boylam">
-            <Template Context="location">@(location.Lon)</Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Class" Title="Sınıfı">
-            <Template Context="location">@(location.Class)</Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Type" Title="Tipi">
-            <Template Context="location">@(location.Type)</Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="SearchLocationByQueryResult" Property="Icon" Title="Fotoğraf">
-            <Template Context="location"><img width="30px" height="30px" src="@(string.IsNullOrEmpty(location.Icon) ? "https://static-00.iconduck.com/assets.00/globe-icon-512x512-jrx2ilx3.png" : location.Icon)" /></Template>
-        </RadzenDataGridColumn>
-    </Columns>
-
-</RadzenDataGrid>
+    </RadzenDataGrid>
+}
 
 @code {
 
     private List<SearchLocationByQueryResult> outputData;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         outputData = await GetLocationQueryDetailsAsync();
     }

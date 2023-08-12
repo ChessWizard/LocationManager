@@ -17,8 +17,8 @@
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" @bind="query"/>
-                <button class="btn btn-outline-success" type="submit" @onclick="NavigateToSearch">Search</button>
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" @bind-value=query/>
+                <a href="@($"/search?q={query}&limit=20")" class="btn btn-success">Search</a>
             </form>
         </div>
     </div>
